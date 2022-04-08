@@ -5,12 +5,18 @@ function Tranform (Input_background: Image, Output_background: Image, H: number,
     const AD_BC = A * D - B * C
     for (let y = 0; y <= scene.screenHeight(); y++) {
         for (let x = 0; x <= scene.screenWidth(); x++) {
-            const x_X0 = x - X0
-            const y_Y0 = y - Y0
-            //get Input by Output
-            const xInput = ((x_X0) * D - (y_Y0) * B) / (AD_BC) - H + X0
-            const yInput = ((x_X0) * C - (y_Y0) * A) / (-AD_BC) - V + Y0
-            Output_background.setPixel(x, y, Input_background.getPixel(Math.floor(xInput), Math.floor(yInput)))
+            
+            // //get Input by Output
+            // const x_X0 = x - X0
+            // const y_Y0 = y - Y0
+            // const xInput = ((x_X0) * D - (y_Y0) * B) / (AD_BC) - H + X0
+            // const yInput = ((x_X0) * C - (y_Y0) * A) / (-AD_BC) - V + Y0
+            // Output_background.setPixel(x, y, Input_background.getPixel(Math.floor(xInput), Math.floor(yInput)))
+             
+            //get Output by Input
+            const xOut = A * (x + H - X0) + B * (y + V - Y0) + X0
+            const yOut = C * (x + H - X0) + D * (y + V - Y0) + Y0
+            Output_background.setPixel(x, y, Input_background.getPixel(Math.floor(xOut), Math.floor(yOut)))
         }
     }
     const x=Background.width,y=Background.height
@@ -27,10 +33,10 @@ function Tranform (Input_background: Image, Output_background: Image, H: number,
     Output_background.print("C="+Math.roundWithPrecision(C,3), 0, i++ * 10, 2)
     Output_background.print("D="+Math.roundWithPrecision(D,3), 0, i++ * 10, 2)
 }
-let A = 0.5//1
-let B = -0.5//0
-let C = 0.5//0
-let D = 0.5//1
+let A = 1 // 0.5  //
+let B = 0 //-0.5  //
+let C = 0 // 0.5  //
+let D = 1 // 0.5  //
 let H = 0
 let V = 0
 let Background = assets.image`Background`
